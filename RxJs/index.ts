@@ -1,48 +1,15 @@
-import { Observable, Observer } from 'rxjs';
+import { Observable, of, Observer } from "rxjs";
 
-const observer: Observer<any> = {
-    next : value => console.log('next:', value ),
-    error: error => console.warn('error:', error ),
-    complete: () => console.info('completado')
-};
+const products = [
+  { name: "Apple", price: 1.99, inStock: true },
+  { name: "Orange", price: 1.49, inStock: false },
+  { name: "Banana", price: 0.99, inStock: true },
+];
 
+const obs$ = of(...products);
 
-const intervalo$ = new Observable<number>( subscriber => {
-
-    // Crear un contador, 1,2,3,4,5,......
-    let count = 0;
-
-    const interval = setInterval( () => {
-        // cada segundo
-        count++;
-        subscriber.next( count );
-        console.log(count);
-
-    }, 1000);
-
-    setTimeout(() => {
-        subscriber.complete();
-    }, 2500 );
-
-    return () => {
-        clearInterval(interval);
-        console.log('Intérvalo destruido');
-    }
-
-});
-
-
-const subs1 = intervalo$.subscribe( observer );
-const subs2 = intervalo$.subscribe( observer );
-const subs3 = intervalo$.subscribe( observer );
-
-//subs1.add( subs2 ).add( subs3 );
-
-
-setTimeout(() => {
-    subs1.unsubscribe()
-    subs2.unsubscribe()
-    subs3.unsubscribe()
-
-    console.log('Completado timeout');
-}, 6000);
+obs$.subscribe({
+    next: value => console.log(`name: ${value.name}  price: ${value.price} `),
+    error: err => console.log('error:', err),
+    complete:() => console.log("we finish the sequence ")
+})
