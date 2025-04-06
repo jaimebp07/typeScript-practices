@@ -1,4 +1,4 @@
-import { Observable, of, Observer } from "rxjs";
+import { of } from "rxjs";
 
 const products = [
   { name: "Apple", price: 1.99, inStock: true },
