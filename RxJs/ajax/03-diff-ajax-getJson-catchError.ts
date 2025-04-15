@@ -32,3 +32,5 @@ obs$.pipe(
     error: err => console.warn('error en subs:', err ),
     complete: () => console.log('complete'),
 });
+
+
